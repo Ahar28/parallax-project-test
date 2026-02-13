@@ -1,0 +1,45 @@
+name: Manual Trigger Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      type:
+        description: 'Select the type to print'
+        required: true
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+          - testing
+
+jobs:
+  print-type:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print selected type
+        run: |
+          echo "Selected type: ${{ github.event.inputs.type }}"
+          echo "================================"
+          
+          case "${{ github.event.inputs.type }}" in
+            development)
+              echo "🔧 Development Environment Selected"
+              echo "This is for development purposes"
+              ;;
+            staging)
+              echo "📦 Staging Environment Selected"
+              echo "This is for staging testing"
+              ;;
+            production)
+              echo "🚀 Production Environment Selected"
+              echo "This is for production deployment"
+              ;;
+            testing)
+              echo "🧪 Testing Environment Selected"
+              echo "This is for running tests"
+              ;;
+          esac
+          
+          echo "================================"
+          echo "Workflow completed successfully!"
